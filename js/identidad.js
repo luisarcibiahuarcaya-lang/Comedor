@@ -5,6 +5,8 @@
    de su código universitario y mostrar su estado (Apto/Regular).
    ============================================================ */
 
+// Simulación de conflicto por Colaborador B
+
 /**
  * Busca un estudiante por código universitario dentro de la
  * base de usuarios y devuelve su información pública.
