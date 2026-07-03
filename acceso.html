@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMEDOR-TECH · Control de Acceso</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">CT</div>
+    <div>
+      <h1>COMEDOR-TECH</h1>
+      <p class="institution">UNAMBA · Ingeniería Informática y Sistemas</p>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html">Ingreso</a>
+    <a href="reserva.html">Reserva</a>
+    <a href="acceso.html" class="active">Control de acceso</a>
+  </nav>
+</header>
+
+<main>
+  <section class="panel wide">
+    <p class="panel-eyebrow">Reserva &nbsp;·&nbsp; Control &nbsp;·&nbsp; Ticket &nbsp;·&nbsp; Acceso</p>
+    <h2>Validar entrada al comedor</h2>
+
+    <div class="section-title">Escanee código de barras / QR del ticket</div>
+    <div class="scan-row">
+      <input type="search" id="codigoTicket" placeholder="TICKET-221045-2026">
+      <button class="btn outline" id="btnValidar">Validar entrada</button>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <table class="acceso" id="tablaResultado" style="display:none;">
+      <thead>
+        <tr>
+          <th>Código estudiante</th>
+          <th>Nombres y apellidos</th>
+          <th>Turno reservado</th>
+          <th>Estado de ticket</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td id="colCodigo"></td>
+          <td id="colNombre"></td>
+          <td id="colTurno"></td>
+          <td><span id="colEstado" class="estado-pill"></span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div id="alertaAcceso" class="alert-ok" style="display:none;">
+      Control de acceso exitoso: permita el ingreso del comensal y entregue la bandeja de alimentos.
+    </div>
+
+    <button class="btn amber" id="btnServido" style="display:none;">Registrar como atendido / servido</button>
+  </section>
+</main>
+
+<footer>Prototipo académico — Universidad Nacional Micaela Bastidas de Apurímac</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/ticket.js"></script>
+<script>
+  requerirSesion("index.html");
+
+  let ticketActual = null;
+
+  document.getElementById("btnValidar").addEventListener("click", function () {
+    const codigo = document.getElementById("codigoTicket").value.trim();
+    const msg = document.getElementById("msg");
+    const tabla = document.getElementById("tablaResultado");
+    const alerta = document.getElementById("alertaAcceso");
+    const btnServido = document.getElementById("btnServido");
+
+    const ticket = buscarTicket(codigo);
+
+    if (!ticket) {
+      msg.textContent = "Ticket no encontrado. Verifique el código escaneado.";
+      msg.className = "msg show err";
+      tabla.style.display = "none";
+      alerta.style.display = "none";
+      btnServido.style.display = "none";
+      return;
+    }
+
+    msg.className = "msg";
+    ticketActual = ticket;
+
+    document.getElementById("colCodigo").textContent = ticket.codigoEstudiante;
+    document.getElementById("colNombre").textContent = ticket.nombre;
+    document.getElementById("colTurno").textContent = ticket.turno;
+
+    const est = etiquetaEstado(ticket.estado);
+    const estadoEl = document.getElementById("colEstado");
+    estadoEl.textContent = est.texto;
+    estadoEl.className = "estado-pill " + est.clase;
+
+    tabla.style.display = "table";
+    alerta.style.display = ticket.estado === "VALIDO_SIN_SERVIR" ? "block" : "none";
+    btnServido.style.display = ticket.estado === "VALIDO_SIN_SERVIR" ? "inline-flex" : "none";
+  });
+
+  document.getElementById("btnServido").addEventListener("click", function () {
+    if (!ticketActual) return;
+    const actualizado = marcarComoServido(ticketActual.codigoTicket);
+    ticketActual = actualizado;
+
+    const est = etiquetaEstado(actualizado.estado);
+    const estadoEl = document.getElementById("colEstado");
+    estadoEl.textContent = est.texto;
+    estadoEl.className = "estado-pill " + est.clase;
+
+    document.getElementById("alertaAcceso").style.display = "none";
+    document.getElementById("btnServido").style.display = "none";
+  });
+</script>
+</body>
+</html>

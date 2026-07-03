@@ -1,0 +1,377 @@
+/* ============================================================
+   COMEDOR-TECH — Universidad Nacional Micaela Bastidas de Apurímac
+   Paleta:
+     --navy      #1B2A4A  (institucional, cabecera)
+     --paper     #F6F3EC  (fondo cálido tipo ticket de comedor)
+     --amber     #E1972B  (acento, "turno" / comida)
+     --green     #2F7A4F  (éxito / válido)
+     --red       #B8412F  (error / no válido)
+     --ink       #23262B  (texto principal)
+   Tipografía:
+     Display -> "Fraunces"  (títulos, con carácter editorial)
+     Body    -> "Inter"     (formularios, texto de interfaz)
+     Mono    -> "JetBrains Mono" (códigos de ticket, IDs)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+:root{
+  --navy:#1B2A4A;
+  --navy-dark:#121d33;
+  --paper:#F6F3EC;
+  --paper-alt:#EFEAE0;
+  --amber:#E1972B;
+  --amber-dark:#B9761A;
+  --green:#2F7A4F;
+  --green-bg:#E7F3EB;
+  --red:#B8412F;
+  --red-bg:#FBEAE6;
+  --ink:#23262B;
+  --ink-soft:#5B6270;
+  --line:#DCD5C6;
+  --radius:10px;
+}
+
+*{box-sizing:border-box;}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100vh;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+}
+
+/* ---------- Cabecera institucional ---------- */
+.topbar{
+  background:var(--navy);
+  color:#fff;
+  padding:14px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+}
+
+.topbar .brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.topbar .brand-mark{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:var(--amber);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Fraunces',serif;
+  font-weight:700;
+  color:var(--navy-dark);
+}
+
+.topbar h1{
+  font-family:'Fraunces',serif;
+  font-size:1.05rem;
+  font-weight:700;
+  letter-spacing:.02em;
+  margin:0;
+}
+
+.topbar .institution{
+  font-size:.72rem;
+  color:#C9D2E4;
+  margin:0;
+}
+
+.topbar nav{
+  display:flex;
+  gap:6px;
+}
+
+.topbar nav a{
+  color:#DCE3F2;
+  text-decoration:none;
+  font-size:.82rem;
+  font-weight:600;
+  padding:8px 12px;
+  border-radius:8px;
+  transition:background .15s ease;
+}
+
+.topbar nav a.active{
+  background:var(--amber);
+  color:var(--navy-dark);
+}
+
+.topbar nav a:not(.active):hover{
+  background:rgba(255,255,255,.1);
+}
+
+/* ---------- Contenedor principal ---------- */
+main{
+  flex:1;
+  display:flex;
+  justify-content:center;
+  padding:36px 20px 60px;
+}
+
+.panel{
+  width:100%;
+  max-width:480px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px 26px;
+  box-shadow:0 1px 2px rgba(27,42,74,.05);
+}
+
+.panel.wide{max-width:720px;}
+
+.panel-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.68rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--amber-dark);
+  font-weight:700;
+  margin:0 0 6px;
+}
+
+.panel h2{
+  font-family:'Fraunces',serif;
+  font-size:1.5rem;
+  margin:0 0 22px;
+}
+
+/* ---------- Formularios ---------- */
+label{
+  display:block;
+  font-size:.8rem;
+  font-weight:600;
+  color:var(--ink-soft);
+  margin:16px 0 6px;
+}
+
+label:first-of-type{margin-top:0;}
+
+input[type=text],
+input[type=password],
+input[type=search]{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  font-family:'Inter',sans-serif;
+  font-size:.92rem;
+  background:var(--paper-alt);
+  color:var(--ink);
+}
+
+input:focus{
+  outline:2px solid var(--amber);
+  outline-offset:1px;
+  background:#fff;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  width:100%;
+  padding:12px 16px;
+  margin-top:20px;
+  border:none;
+  border-radius:8px;
+  background:var(--navy);
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-weight:700;
+  font-size:.9rem;
+  letter-spacing:.01em;
+  cursor:pointer;
+  transition:background .15s ease, transform .1s ease;
+}
+
+.btn:hover{background:var(--navy-dark);}
+.btn:active{transform:translateY(1px);}
+
+.btn.amber{background:var(--amber); color:var(--navy-dark);}
+.btn.amber:hover{background:var(--amber-dark); color:#fff;}
+
+.btn.outline{
+  background:transparent;
+  color:var(--navy);
+  border:1.5px solid var(--navy);
+}
+.btn.outline:hover{background:var(--navy); color:#fff;}
+
+.hint{
+  text-align:center;
+  font-size:.76rem;
+  color:var(--ink-soft);
+  margin-top:14px;
+}
+
+.msg{
+  margin-top:14px;
+  padding:10px 12px;
+  border-radius:8px;
+  font-size:.82rem;
+  font-weight:600;
+  display:none;
+}
+.msg.show{display:block;}
+.msg.ok{background:var(--green-bg); color:var(--green);}
+.msg.err{background:var(--red-bg); color:var(--red);}
+
+/* ---------- Sección de identificación ---------- */
+.id-box{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  background:var(--paper-alt);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:14px;
+}
+
+.id-box .who{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.id-box .who .code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;
+  color:var(--ink-soft);
+}
+
+.id-box .who .name{
+  font-weight:700;
+  font-size:.98rem;
+}
+
+.badge{
+  font-size:.72rem;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:999px;
+}
+.badge.apto{background:var(--green-bg); color:var(--green);}
+.badge.no-apto{background:var(--red-bg); color:var(--red);}
+.badge.pendiente{background:#EFEAE0; color:var(--ink-soft);}
+
+/* ---------- Turnos ---------- */
+.section-title{
+  font-size:.76rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+  margin:24px 0 10px;
+}
+
+.turnos{
+  display:grid;
+  gap:10px;
+}
+
+.turno-option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1.5px solid var(--line);
+  border-radius:8px;
+  padding:11px 12px;
+  cursor:pointer;
+  font-size:.86rem;
+}
+
+.turno-option:has(input:checked){
+  border-color:var(--amber);
+  background:#FDF4E4;
+}
+
+.turno-option input{accent-color:var(--amber);}
+
+.checkbox-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:.86rem;
+}
+.checkbox-row input{accent-color:var(--navy);}
+
+/* ---------- Ticket / tabla de acceso ---------- */
+.scan-row{
+  display:flex;
+  gap:10px;
+}
+.scan-row input{flex:1;}
+.scan-row .btn{width:auto; margin-top:0; padding:12px 20px;}
+
+table.acceso{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:18px;
+  font-size:.85rem;
+}
+table.acceso th{
+  text-align:left;
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  color:var(--ink-soft);
+  border-bottom:1px solid var(--line);
+  padding:8px 6px;
+}
+table.acceso td{
+  padding:12px 6px;
+  border-bottom:1px solid var(--line);
+}
+
+.estado-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-weight:700;
+  font-size:.8rem;
+}
+.estado-pill.valido{color:var(--green);}
+.estado-pill.servido{color:var(--ink-soft);}
+.estado-pill.invalido{color:var(--red);}
+
+.alert-ok{
+  margin-top:18px;
+  background:var(--green-bg);
+  color:var(--green);
+  border-radius:8px;
+  padding:12px 14px;
+  font-size:.84rem;
+  font-weight:600;
+}
+
+.ticket-code{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;
+  letter-spacing:.02em;
+}
+
+footer{
+  text-align:center;
+  font-size:.72rem;
+  color:var(--ink-soft);
+  padding:18px;
+}

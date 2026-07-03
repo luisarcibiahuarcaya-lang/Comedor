@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMEDOR-TECH · Reserva de Ticket</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">CT</div>
+    <div>
+      <h1>COMEDOR-TECH</h1>
+      <p class="institution">UNAMBA · Ingeniería Informática y Sistemas</p>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html">Ingreso</a>
+    <a href="reserva.html" class="active">Reserva</a>
+    <a href="acceso.html">Control de acceso</a>
+  </nav>
+</header>
+
+<main>
+  <section class="panel wide">
+    <p class="panel-eyebrow">Reserva &amp; Generación de Ticket</p>
+    <h2>Solicitar ticket de comedor</h2>
+
+    <div class="section-title">1. Identificación del Estudiante / Comensal</div>
+    <div class="id-box">
+      <div class="who">
+        <span class="name" id="idNombre">—</span>
+        <span class="code" id="idCodigo">Código: —</span>
+      </div>
+      <span class="badge pendiente" id="idEstado">Pendiente</span>
+    </div>
+
+    <div class="section-title">2. Selección de Turno de Alimentos</div>
+    <div class="turnos">
+      <label class="turno-option">
+        <input type="radio" name="turno" value="1" checked>
+        Turno 1 (11:30 AM - 12:15 PM)
+      </label>
+      <label class="turno-option">
+        <input type="radio" name="turno" value="2">
+        Turno 2 (12:15 PM - 01:00 PM)
+      </label>
+      <label class="turno-option">
+        <input type="radio" name="turno" value="3">
+        Turno 3 (01:00 PM - 01:45 PM)
+      </label>
+    </div>
+
+    <div class="section-title">3. Tipo de Dieta Especial</div>
+    <label class="checkbox-row">
+      <input type="checkbox" id="dietaEspecial">
+      Solicitar Menú Vegetariano / Dieta Médica
+    </label>
+
+    <button class="btn amber" id="btnGenerar">Generar ticket de comedor</button>
+    <div id="msg" class="msg"></div>
+
+    <div id="ticketResultado" class="alert-ok" style="display:none;"></div>
+  </section>
+</main>
+
+<footer>Prototipo académico — Universidad Nacional Micaela Bastidas de Apurímac</footer>
+
+<script src="js/auth.js"></script>
+<script src="js/identidad.js"></script>
+<script src="js/ticket.js"></script>
+<script>
+  const sesion = requerirSesion("index.html");
+
+  if (sesion) {
+    const datos = identificarEstudiante(sesion.codigo);
+    renderIdentificacion(datos);
+  }
+
+  document.getElementById("btnGenerar").addEventListener("click", function () {
+    const msg = document.getElementById("msg");
+    if (!sesion || sesion.rol !== "estudiante") {
+      msg.textContent = "Solo un estudiante identificado puede generar un ticket.";
+      msg.className = "msg show err";
+      return;
+    }
+
+    const turnoId = document.querySelector('input[name="turno"]:checked').value;
+    const dieta = document.getElementById("dietaEspecial").checked;
+
+    const ticket = generarTicket(sesion.codigo, sesion.nombre, turnoId, dieta);
+
+    const resultado = document.getElementById("ticketResultado");
+    resultado.style.display = "block";
+    resultado.innerHTML =
+      "Ticket generado correctamente: <span class='ticket-code'>" + ticket.codigoTicket + "</span>" +
+      "<br>" + ticket.turno + (ticket.dietaEspecial ? " · Dieta especial" : "");
+  });
+</script>
+</body>
+</html>

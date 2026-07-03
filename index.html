@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMEDOR-TECH · Ingreso al sistema</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">CT</div>
+    <div>
+      <h1>COMEDOR-TECH</h1>
+      <p class="institution">UNAMBA · Ingeniería Informática y Sistemas</p>
+    </div>
+  </div>
+  <nav>
+    <a href="index.html" class="active">Ingreso</a>
+    <a href="reserva.html">Reserva</a>
+    <a href="acceso.html">Control de acceso</a>
+  </nav>
+</header>
+
+<main>
+  <section class="panel">
+    <p class="panel-eyebrow">Comensal / Colaborador / Administrador</p>
+    <h2>Ingresar al sistema</h2>
+
+    <form id="formLogin" autocomplete="off">
+      <label for="identificador">Código o correo institucional</label>
+      <input type="text" id="identificador" placeholder="221045@unamba.edu.pe" required>
+
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" placeholder="••••••••" required>
+
+      <button type="submit" class="btn">Ingresar al sistema</button>
+      <div id="msg" class="msg"></div>
+    </form>
+
+    <p class="hint">¿Olvidaste tu contraseña? · Usuarios de prueba: <code>221045</code> / <code>221045</code></p>
+  </section>
+</main>
+
+<footer>Prototipo académico — Universidad Nacional Micaela Bastidas de Apurímac</footer>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.getElementById("formLogin").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const identificador = document.getElementById("identificador").value.trim();
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
+
+    const resultado = login(identificador, password);
+
+    if (!resultado.ok) {
+      msg.textContent = resultado.mensaje;
+      msg.className = "msg show err";
+      return;
+    }
+
+    msg.textContent = "Bienvenido(a), " + resultado.usuario.nombre;
+    msg.className = "msg show ok";
+
+    setTimeout(() => {
+      if (resultado.usuario.rol === "estudiante") {
+        window.location.href = "reserva.html";
+      } else {
+        window.location.href = "acceso.html";
+      }
+    }, 500);
+  });
+</script>
+</body>
+</html>
