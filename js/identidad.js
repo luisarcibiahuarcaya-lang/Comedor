@@ -5,6 +5,10 @@
    de su código universitario y mostrar su estado (Apto/Regular).
    ============================================================ */
 
+// Validación de código vacío por Colaborador A
+
+
+
 /**
  * Busca un estudiante por código universitario dentro de la
  * base de usuarios y devuelve su información pública.
