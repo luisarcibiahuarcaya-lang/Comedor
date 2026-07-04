@@ -5,7 +5,12 @@
    de su código universitario y mostrar su estado (Apto/Regular).
    ============================================================ */
 
+
 // Simulación de conflicto por Colaborador B
+// Validación de código vacío por Colaborador A
+
+
+
 
 /**
  * Busca un estudiante por código universitario dentro de la
